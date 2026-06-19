@@ -1,5 +1,5 @@
 import React from 'react'
-
+// Every page
 export const Footer = () => {
   return (
     <div>
