@@ -1,5 +1,5 @@
 import React from 'react'
-
+// Home page
 export const Hero = () => {
   return (
     <div className="relative">
