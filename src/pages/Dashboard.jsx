@@ -1,6 +1,7 @@
 import React from 'react'
 import Card from '../components/Card'
 import Footer from '../components/Footer'
+import Loader from '../components/ui/Loader'
 
 export const Dashboard = () => {
     const users=[
@@ -19,6 +20,7 @@ export const Dashboard = () => {
         ]
   return (
     <div>
+        <Loader/>
         <h1 className="text-6xl font-bold  bg-amber-400 py-8">
             Farmer Dashboard 
         </h1>

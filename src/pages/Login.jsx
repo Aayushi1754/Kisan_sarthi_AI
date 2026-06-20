@@ -1,5 +1,7 @@
 import React from 'react'
 import Footer from '../components/Footer'
+import Button from '../components/ui/Button'
+import Input from '../components/ui/Input'
 
 const Login = () => {
   return (
@@ -8,18 +10,21 @@ const Login = () => {
         <p className='text-center text-gray-600 mt-2'>
         Access personalized farming assistance with Kisan Sarthi AI.
       </p>
-      <form  className='mt-6 flex flex-col gap-4 items-center' >
-        <input 
-        type="email"
+      <form  className='mt-6 flex flex-col gap-4 items-center ' >
+        <Input 
+        label="Email"
         placeholder="Enter your email"
-        className='border p-2 rounded flex justify-center'
+        type="Email"
         />
-        <input
-        type="password"
+        <Input
+        label="password"
         placeholder="Enter your password"
-        className='border p-2 rounded flex justify-center'
+        type="password"
         />
-        <button className='  bg-black text-color-white text-sm mt-4 text-gray-400 rounded hover:bg-teal-700'>Login  </button>
+        <button
+        variant="primary"
+        size="md"
+        onClick={() => alert("Login clicked")}> Login</button>
         <p className='mt-4 text-sm text-gray-500 text-center'>
         Failed to Login? Create new Account!
       </p>
