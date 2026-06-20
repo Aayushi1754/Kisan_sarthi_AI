@@ -1,9 +1,6 @@
 import React,{useState} from 'react'
 import Footer from '../components/Footer'
-import Button from '../components/ui/Button'
-import Input from '../components/ui/Input'
-import Toast from '../components/ui/Toast'
-import Modal from '../components/ui/Modal'
+import {Button, Input, Toast,Modal} from "../components/ui"
 
 const Login = () => {
   const[open,setOpen]=useState(true)

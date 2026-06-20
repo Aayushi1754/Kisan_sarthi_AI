@@ -6,6 +6,7 @@ import Login from './pages/Login'
 import About from './pages/About'
 import Dashboard from './pages/Dashboard'
 import Footer from './components/Footer'
+import Democomponents from "./pages/Democomponents"
 
 export const App = () => {
   return (
@@ -14,6 +15,8 @@ export const App = () => {
       <main className="grow">
       <Routes>
         <Route path='/' element= {<Home/>} />
+            <Route path="/components" element={<Democomponents/>}
+/>
         <Route path='/DashBoard' element={<Dashboard/>} />
         <Route path='/Login' element={<Login/>} />
         <Route path='/About' element={<About/>}/>
