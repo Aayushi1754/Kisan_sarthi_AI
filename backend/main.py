@@ -48,21 +48,24 @@ class Feature(BaseModel):
     description: str
 
 
-# ---------------- HOME ----------------
+# Home Route
 @app.get("/")
 def home():
-    return {"message": "Welcome to Kisan Sarthi API"}
+    return {
+        "message": "Welcome to Kisan Sarthi API"
+    }
 
 
-# ---------------- GET ALL ----------------
+# GET All Features
 @app.get("/api/features", status_code=status.HTTP_200_OK)
 def get_features():
     return features
 
 
-# ---------------- GET BY ID ----------------
+# GET Feature By ID
 @app.get("/api/features/{feature_id}", status_code=status.HTTP_200_OK)
 def get_feature(feature_id: int):
+
     if feature_id not in features:
         raise HTTPException(
             status_code=status.HTTP_404_NOT_FOUND,
@@ -72,7 +75,7 @@ def get_feature(feature_id: int):
     return features[feature_id]
 
 
-# ---------------- SEARCH ----------------
+# Search Feature
 @app.get("/api/features/search", status_code=status.HTTP_200_OK)
 def search_feature(title: str):
 
@@ -86,7 +89,7 @@ def search_feature(title: str):
     )
 
 
-# ---------------- POST ----------------
+# POST - Add Feature
 @app.post("/api/features", status_code=status.HTTP_201_CREATED)
 def add_feature(feature: Feature):
 
@@ -103,7 +106,7 @@ def add_feature(feature: Feature):
     }
 
 
-# ---------------- PUT ----------------
+# PUT - Update Feature
 @app.put("/api/features/{feature_id}", status_code=status.HTTP_200_OK)
 def update_feature(feature_id: int, feature: Feature):
 
@@ -124,7 +127,7 @@ def update_feature(feature_id: int, feature: Feature):
     }
 
 
-# ---------------- DELETE ----------------
+# DELETE - Delete Feature
 @app.delete("/api/features/{feature_id}", status_code=status.HTTP_200_OK)
 def delete_feature(feature_id: int):
 
@@ -142,7 +145,7 @@ def delete_feature(feature_id: int):
     }
 
 
-# ---------------- HEALTH CHECK ----------------
+# Health Check
 @app.get("/health", status_code=status.HTTP_200_OK)
 def health():
     return {
