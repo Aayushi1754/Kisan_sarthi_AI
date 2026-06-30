@@ -1,43 +1,58 @@
-import React from 'react'
-import Card from '../components/Card'
-import Footer from '../components/Footer'
-import Loader from '../components/ui/Loader'
+import React, { useEffect, useState } from "react";
+import Card from "../components/Card";
+import Footer from "../components/Footer";
+import Loader from "../components/ui/Loader";
 
-export const Dashboard = () => {
-    const users=[
-            { img: 'data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAA0JCgsKCA0LCgsODg0PEyAVExISEyccHhcgLikxMC4pLSwzOko+MzZGNywtQFdBRkxOUlNSMj5aYVpQYEpRUk8BDg4OExETJhUVJk81LTVPT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT//AABEIAIoA9gMBIgACEQEDEQH/xAAbAAABBQEBAAAAAAAAAAAAAAAEAQIDBQYAB//EAD8QAAEDAgQDBQYDBQgDAQAAAAEAAgMEEQUSITETQVEGIjJhcRQjgZGhwTNCsRU0UtHhFiRDYnKCkvGisvA1/8QAGQEAAwEBAQAAAAAAAAAAAAAAAAECAwQF/8QAJBEAAgICAgIDAAMBAAAAAAAAAAECEQMhEjETUQQiQSMygWH/2gAMAwEAAhEDEQA/AL9rVK1qa0KVoWvI5YxHNapCWRxufI4MY0EucdgFzAsz2txMg/s6LwjvTHr0CV2aVRFi3aiZ7jFh/uo9uIR3nefks6+Z73l73uc9x1Ljcn1URebFzjYuPNMIaSCNSOZVWRVhlO6NzxFN4XaA72KIdQ1VO6UUczg5ljl5Pb1Cqy+26vKGpnfCJA4kNaAOt1hkbWzXHGwvAu1Hs9Q1la0sDtCR4T8OR81vGObIwSRuBa4aEc155LT+2U7nx07Hy65o3C2b0K0HZatMQNE8u4f+G198zP8AKbrOORGrhI0lkoCcUi2JFAS2SXSosBUlkq5Kwo6y5clsiwoSyWy5KlY6EsusnLkrASy6yVcixiWXWSrkWAll1kqRKwEsksnJCiwG2SJy5Kx0UDVM3ZRMUrdldmSiTMsNXEADW52XnWNVcFXi9TIydhBfZtj8Pst3iFK6uwyppI5OG+aJzGu6EheS1FO6knkgmaBJG4tcAdLq4hJFgWjNd2thZtlG97QbDdDQTm3DO3IqYBptfKFRFC52nQo7DWyGTKx92g3sHWugbR+Z/RPiBbIC1zWeimStFJ0y/jp6kOBZUPAHIjZWsXHp2tnleH5ADfLYjzuqfBn5WStMhNzzKs5sRp6KFz5nktGmVozWXn5FK6OyFNWbOmqGTxNcXAPI1F9VPlPTRYmjrIK2GN1NO2QMbYfxD1CLbPLG4Ohlcw366FarNWpIl409o1dkqDw2sNZS53ACRpyvCKWydozoddckXIsKHLkiW6LFRyUJLpQUDFXJLrrpAKuSXXXQAq5IuuiwFXJLpEWAt00pbpCUrGIuSFcosdFCwqduyGYVO0rUzROzdYTtZR09LjEssz4j7UA9rMpu22hv6/ZblpWD7eMc3GYZHeF8Ay/Am/6hVDsJdFHeASDJk310TTLHqA4W5iyFuEl1tRmE8dgGjU01LvytF0PuiIGNIDnbXsh6RSVsv6el4WEmWUycVzDIxwNmCxAsR53RkcsP7LkdU4PN7M4hkkrKi9tfTRTUcXteCOZO0iDgkNlB2eHE235gqzw+kjPZeeiDy90jLiw52uFwOe9+zslDX19FRgkFH/aiCkom1JopI3PfHM7QEN3+fMa7LXyYNC43jmkYOh739VT9lcKnhqpsSq4nRl8YjiY8Wdbcm3LX9FqQtpJPs54WiOkpY6WLIwlxJuSeanugsSxKlwql9prZSyMuyizS4k9AAqY9uMEHhNQ/0jH3KpRf4Dkv0090oKyh7c4afBSVjv8Aa3+aae3EH+HhdY74hPhIXOJrbpbrIf2znd+HgdS71J/kkPavFXD3XZ6U+ub+SOEg5xNhdKsVN2l7QsifM7AjHGxpc5zw6zQNytB2exKTFcHirJmNY95cCG7aOI+yUoNK2EZJ9FtdddMuuuobLH3XXTLrrpWFD7pLpt110BQ5cm3SXSsB10hKS6aSk2OhbpUwlIosZmY66nLb8QW9U12NUsbsuYLMhjMoaHJwpozzW/OJy82a5mK0nCz52/NZ7tZUQ4nhrXwtvJA+4I3tzQ7KWO1syKjjjEZj0tZLyxTDmzD7BJcoyekcytkiGwJsfJNkpiNjddXLRQM0EqzoqKarywQtu922tkNDDrqFd4DcYrDl6qMkqVl41bOpq2SnwubC5rk8UFhHIg6rT4E9oaeK/uhoPS3JY2tJGMTtcC0CVxt01Wlhcw0rIW89D5tH/YXHlS0zpU6UjXCrgJ8YSOroWtvmHzWVDGjr81wYNjsn5kcnkCu18sdRJg8NwQ6sD3C+hA/7KvWnC2OAaIAfJgWHxe/7Rw1ou6znut8ldxGQxR3iOrAfouvFJSijkz5XF2aZr6PNZnBv5AKQyU7RfMwfJZn3xOkQClihqJWF2RoaL65t1bpdmazt9I0HtFPraRunml9ogtfit+JWYcJNe40/FcGvtq1o8krj7F55eiy7SVUH9nsRa2Vpc6lkAF/8pCruzFdDRdl6USPAPfdY+b3Ktx1j/wBn1DiRYRbfFMwyGN2EUeYXPCB+ZJWOXIlA6sM290a+kxOCoiz5xZLU4jFFEXNeNFmRE1osCbeq50bToST8VyeZG/kZo6PEo54s7nABTmugH5x81lGta3w3A6XSEA8yjzIPI/RrPboLayD5pP2hBykCyZGlrqM2G6PLYeV+jVyYrTtcGmRuqecRgAuXtt6rHOdbTmVA55uWg7bpqQvK/Rs5cWpo3NBkZ3ttU2TGKVrT71mnmsS592h3LZRSNePCrSTGsrNxHjFM9mYyN1XLz8yOG9wuV+JeyvIyVpbfYqaMjoowcjcxGikiLXMvyWDOYmj73JQSYnBFIWmJ5y6XCeJeHG95aQGi97KhlcHOJzHUro+PgUrcyW96CJqqOWV7xcFx0uOSiY3O42ez4myG/wB30S2Pqu3xqqK5tFlBQzSGzGi/qj8EpZWYsxsjcpbqqajnqKaRr4y6wP5T9lrcOr4X5KqWxDe6543b6hcueE0nRviywv7FH2npmwY5M7MAH2cdPJG4RKZmvmOo0YLcgFLjWHRYhi0sz5n5XgZANiLck+nibSQNgibZg6ncrkyTXBR/R5Jq2kEB5vo0KUOIaXPyhrRclDh7792ygr6hzYTC4tBlFiT0WUIOcqRkgGSpNRjlG4uvlDyB0C1rXe7YAdQ0C3wWGgHCx+wuAyL7LaiVkchNy4tOotou9qno5/kd0FwtLmuzMc5oGw3Uz3kRhkY4QN+oJH/wXQyTTxCUZQ3cX0uU1lpm3kqCCD4fXbUrnnJ2ZVSpEU9M5seaMEC25OvyQbg4GzjuintZPfhSFpAt3hqhLZTZ8tyFpHezN0yq7QOy4fUg/wALBv1I/mnUAIw6jA5U8f8A6j+aC7R1MT4qqNty68evL8pRMRmbTwMjbtDGP/AKMq/j/wBO3HpBZuNyFGZW7A3KaIiT7x2vRQulhiebavC5ErLbCMzj5eqa6UNNtyhojUVLjpZt0SYYmHNIdQOqdJaYJnXc/wAgoZJmh2RnecULUYhndwYja+l0XSUjYGcaU3cr4cVchXfQyb+7wukkOpUVKDJSSSHnqhK6pNZVCBnhvqrYMbFQltrd1W/qkn2w7K6icKiB7L94EpY33dw5O69uirKOoMNY7zKvZ4IayHiscA8a3CvIuL30wBXNv4m39FyFZXPiJjfu3RcqUcn4Fk7YrkMvdp+ia+SKkuGkPP0UL5jEw9673bnogXvc8krvx/FhDctsw5OQTLUulBvc3Q977tTInGxCka5xGi6Qqhhjaf8ADHxSthA5N+Sl15pLopC5MkgEA0kiefNhsVocIgEsJdE17mE98SCxI+6zgzO0DrI6lkxSDL7PKbNOgJ2UZMfJaBSp7LJzjQ1XsdQxxp3fhu5t6WUlREacgSSAgi7XDZwKgNTXVLA2tpGyi97tdZSw0U0kLuO/iuc/MAbCwI2+i4M/x21dGqmmPGXgFzTmdysqio97MZJL3PLoEdW8bD2ZRAW30Dt2/NUcj3X0kLrm5sNCVn8fE47kaoNikYcTjOQOIhyn4uFlqBWQB7rx6A30NsyyvZqRpxaofPlFgxouL8z/ACWqNXSh7XPgacu2iuT+1Uc2bstWvZ7JGZGcMEaRtGo/pzQM0sPtbmcMtZlDb3tc3Ov1U1JWcaeWV0WWzRlzbuPldQ5jLWSskDdgW+tyD+n6rmknZnPa0OdESxnCcbb5r3Q4hp2SF8ryei4MtWuvK6Np2aNNef2UstJDKXAPk33uNVpB8dMzjEzXaKaI09QyJlgHtBdboP6KWaqcx7Yo9XNa0WHoEztFAymwuYZ3F8k9yOXNWEcULal8hHeNtbeSMsorH/p3RWirc+qqKkMsW23VhHSxRnM7vP6p5mgfI4ADMELXVjWRjJo7mFzW50oqh0l2EPrI42WGhHRUldXPllIjub9FDJOZDlG5KtaHDXwNMrgH3C2UI4vtLsVtnYbRwmEPlac/muxasYyHhxnXZS19S2KH3ZAPMKgkMlVUANued7Ixwc3zkF0H4TRycfivb5q3riPZ3OH8NkzD2uZFe9yBYrq0g0zsrtOaxyS5ZCl0ZFzrTk+au8LqsosefJUkthKUVRv983lZehlgpQFItcTw/jObJA3U7rkZTylw3PxXLhWWcVVlaMzKT3hf4lNYfd6hJIbxO+CiebCMfFe62YpErHi58jZExhrGjXUeaEiaD3nbXJUrSTHmO7z3R0CaFJE7nA800jzTHixsmXJ26IsmiW5alEx6n5qHikENd0TmuDh0TTDiT8UkauPzUsFW+F/de75oMg8krXuBTYuJo6XFXSMLH5JIz4mP1un1WBU1dHxcPk4MnNl7j4KgDxpfuX/MrTDajhMeypc6PKQBJy1XPlXoqDaKygY7D8Uk9ozRZJR3nC/XWy2FPU0j7F0ji3+MOsw/8dvjZQ4jhvttEJHAPkYPFoVl4+JE8PEnDcDY5Tb5rB7Nkot20b+JkQ78EcXXMAL/ADN1BG6aKomkmheRMdNjYC+4P+pZSjxKpbclwNjq+Lu39RsfiFYT48/hMayXva3yxXP1NlzSx5L7N7x+jROdER3Yy0+RAA9AbgKsqJYjUZGVMckpP4bXd/7hZmqxOd/ia+QnT30lx/xFh9CoWTV0gbG50kLb+FjQxvyFgt4wa/szGcYS6QuN1ZmdLE4mwqDufMrQTVTYntZPHluLtdfxDqqKspoqqanigjDGN1kc3oOvmUfjbuDQ0tLYiY+9cD+QbD5/ZZ5sUZJIpRqLYDV1HDqi+Id26Glq3zE5hZMc/ud7VPooeJOHSDu8lcYRirf4Z/8AWdh9NLU1Qy6AdVbzVFTSNIkdceSnyCCEOjh1P5gq7EajOy0m652/LLrQmwGtqeIb7KxwOJ74Xv7ot8yqTK6Z+Vg+KtaSGWIMyh2+42WudJY6Q+jSOp2wtBZu4clRYjUiEuibcl30VoHTxR8SV2rRzVRib45WOktd55rh+NG57Lk0UUmryiKV7mODm7oV/iKexzgRlXrtaE0aKGUubeofk00SKo4j5DaxcQOaVcLwWyAdwBa4eiHkdmf6KUH3RJ3KH5lerYJBMpDKS/5n6fVTM1Y09Ag6k6Rt5CyMYO60BNPZLWhJDueaSPxf7Ukl7XXQ+Fx8kxfhEfEfNOJOfQ8lG86p19QUiiRkhabHUKc5T5G10MSmjxHUp2KibPrleLtO3qjsOxBtPekrWiSnfoTzCAaLsseS62dmUqGrQG9wz+7kcKTiU7/Dfks52loKuHEy6lgMkEozgBt8p5oPCMXkw2TJJd8Djq08lpsWnZV4XT1NLN3Q8ag8iFyzuGzRMxrjXMYGvpJmsBvYNIv+qf8AtCZhBbTyM9b/AHWjdUSSUz7PdG8CwB2KDopOJSymaTvtNrLFfJtXQ7ZRnFBc3a4a31AJVlQSe5Ezy54fe1zsFLLkeyzN/NQOfmga0XzAEfVbqfL8H2EEh8T2xOyuc4X11cSUX2gMEpMge72ila2KS+ok6W8/1QeERtlxGBh1Bd3h6a3+ivK6mH7Pkj4TJM0ZdI4t1BPhI8wTdYzmoyVnRGFwZj44JKl1o26HVGxsfTRnPuE9kEtAzMblvVQT1RkjOfkqcnPS6OJtvQXU4lLLSBo7uXoql87nA59fVSxTHhu2IQrg558J3toqxxSKSJaJpkqLA2Wwwyn4VKMwuwc+d1UYRhkMdpZn3dvborR8vCmvmPDaL5bri+XkUnxRSq7ZFLKCJMzi4HSxWcne9pcxzbarRGNlVSyPa8MlBzN81na1szZDx/EtPipLQ2gF3iKkY/KCbXUbwd1zSu8A6l0BedLrkyJskwu0gAdSkWLaszYO3a3VQc1Ozceigd911DQ6o8bfKyMY73RPkg5/F8kQz8A+iaE+hHOJI10KkYLRu+Sgf+GFI/8Adx6qrFQxwu1NaeRTo9lGfEUhokvcpBvdc3dI1IZKx9jqiWxOkN42lx6BBq37PH++tHkhsiQHJAQcsrS0+assIoqph4tLUt4d+8zkpcUAzS6JmAkjD62xOjVnN3EEGYw+OpohLAyzo5OGSzZ2m6zYne2UFt7c1orAdkY3ADMZd+e6oHgX2WCiraNF0TCqiks11wU+je1uZzr5S6w+6rh4/ijoPwI/U/qq40iorZsKPCoqeqFTADlkgJYXa5TbX6ITEawNLYGP0Yfea/RXtJ+4Rf6T+hWAmJLpLknvFcC/kls6s74QpFvJiL5QGiNnDb15qnxCanqHZoGZHX1Cnf8AunyVbzK6sONR6OCO+xjjkGitOz1W2nke2eAvhk/NlvlKqJVcNOXDoQ3S7dbKs/8ASvZd0WVWxkdb7qQcMtuTdE0ppJnOD4S7M22ZZ2NxLTcnZXeH/wD5zzzsvPnHjHsIvZU18jqasMUWcRtPdBQNVPLI/NMCehKs8Y/EagKz93j9V34KpMP0CcC86FNAy6FNfuuG4XQUExtBbcmy5Ru8IXKeJJ//2Q==',
-                 title: 'Crop Disease Prediction',
-                  description: 'Identify crop diseases using AI.' },
-            { img: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR14PlQu9KqqXTo3yVJGUZoIa3dBaBPmlK3chcA1VGMqQ&s=10',
-                 title: 'Soil Health Analysis',
-                  description: 'Get recommendations based on soil conditions.' },
-            { img: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ99kihYOK-LK_XwrID0ZaOlr3dE8WXh_FV-wRuwYoOJQ&s=10',
-                 title: 'Waether Insights', 
-                 description: 'Track weather forecasts for farming.' },
-            { img: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTnm_p-VZFmoESRYrh4qbVDbxHW0vnUJxFjPojl6llKug&s=10',
-                 title: 'Pest Management',
-                  description: 'Receive pest control suggestions.' },
-        ]
-  return (
-    <div>
-        <Loader/>
-        <h1 className="text-6xl font-bold  bg-amber-400 py-8">
-            Farmer Dashboard 
-        </h1>
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-6 p-6 ">
-            {
-                users.map((user,index)=>(
-                    <Card 
-                    key={index}
-                    img={user.img}
-                    title={user.title}
-                    description={user.description}
-                    />
-                ))
-            }
+const Dashboard = () => {
+
+    const [users, setUsers] = useState([]);
+    const [loading, setLoading] = useState(true);
+
+    useEffect(() => {
+
+        fetch("http://127.0.0.1:8000/api/features")
+            .then((res) => res.json())
+            .then((data) => {
+                setUsers(Object.values(data));
+                setLoading(false);
+            });
+
+    }, []);
+
+    if (loading)
+        return <Loader />
+
+    return (
+
+        <div>
+
+            <h1 className="text-6xl font-bold bg-amber-400 py-8">
+                Farmer Dashboard
+            </h1>
+
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6 py-8 dark:bg-gray-700 dark:text-white">
+
+                {
+                    users.map((user, index) => (
+
+                        <Card
+                            key={index}
+                            img="https://images.unsplash.com/photo-1500937386664-56d1dfef3854?w=500"
+                            title={user.title}
+                            description={user.description}
+                        />
+
+                    ))
+                }
+
+            </div>
+
+            <Footer />
+
         </div>
-       
-    </div>
-  )
+
+    );
+
 }
-export default Dashboard
+
+export default Dashboard;

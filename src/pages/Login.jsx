@@ -21,7 +21,9 @@ title="Welcome"
         Access personalized farming assistance with Kisan Sarthi AI.
         
       </p>
-      <form  className='mt-6 flex flex-col gap-4 items-center ' >
+      <form  className='mt-6 flex flex-col gap-4 items-center bg-white
+dark:bg-gray-800
+dark:text-white ' >
         <Input 
         label="Email"
         placeholder="Enter your email"

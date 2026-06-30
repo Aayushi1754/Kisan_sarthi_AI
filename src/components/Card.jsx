@@ -1,8 +1,9 @@
 import React from 'react'
-// Dashboard
+
 export const Card = (props) => {
   return (
-    <div className="border rounded-xl shadow-lg p-4">
+    <div className="border rounded-xl shadow-lg p-4 dark:bg-gray-800 dark:text-white">
+
       <img
         className="w-80 h-48 object-cover rounded-lg"
         src={props.img}
@@ -16,6 +17,7 @@ export const Card = (props) => {
       <p className="text-gray-600 mt-2">
         {props.description}
       </p>
+
     </div>
   )
 }

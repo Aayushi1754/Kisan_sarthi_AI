@@ -6,7 +6,7 @@ import {Link} from 'react-router-dom'
 export const Navbar = () => {
   return (
     <div>
-        <nav className="bg-black text-white p-6">
+        <nav className="bg-black text-white p-6 dark:bg-gray-800 dark:text-white">
             <h1 className="flex mb-5 justify-center text-2xl font-bold align-middle "> Kisan Sarthi</h1>
             <div className='flex justify-center gap-6 underline text-2lg font-bold'>
               <Link to='/'> Home</Link>
