@@ -10,15 +10,27 @@ app = FastAPI(
 )
 
 # CORS Configuration
+
+# A URL is OF 2 types and is made up of made up of: 
+# FRONTEND  # http://localhost:5173
+    #1)PROTOCOL- http
+    #2)DOMAIN-localhost
+    #3)PORT-5173
+# BACKEND :
+            #1)PROTOCOL- http
+            #2)IP-127.0.0.1
+            #3) PORT-8000
+# middleware is security agent which prohibits the unauthorized usage of backend code from any other server without permission.
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["http://localhost:5173"],
-    allow_credentials=True,
-    allow_methods=["*"],
-    allow_headers=["*"],
+    allow_origins=["http://localhost:5173"], # only this frontend URL can access my backend code.
+    allow_credentials=True,# allow login, cookies etc
+    allow_methods=["*"], # allow every HTTP method
+    allow_headers=["*"], #allow every header (extra information sent during request)
 )
+# HTTPS CODE: 2-SUCESSFUL, 4-ERROR, 5-SERVER ERROR
 
-# Global Exception Handler
+# Global Exception Handler for unexpected error
 @app.exception_handler(Exception)
 async def global_exception_handler(request: Request, exc: Exception):
     return JSONResponse(
@@ -41,7 +53,7 @@ features = {
         "description": "View weather forecasts for farming."
     }
 }
-
+##Basically pydantic helps us to convert JSON format to python format and vice versa.
 # Request Body Model
 class Feature(BaseModel):
     title: str
