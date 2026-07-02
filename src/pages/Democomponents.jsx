@@ -5,7 +5,7 @@ Input,
 Loader,
 Toast,
 Modal
-} from "../components/ui"
+} from "../components/ui/temp"
 const Democomponents = () => {
 
 const [open,setOpen] = useState(false)
