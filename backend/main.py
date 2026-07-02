@@ -21,9 +21,12 @@ app = FastAPI(
             #2)IP-127.0.0.1
             #3) PORT-8000
 # middleware is security agent which prohibits the unauthorized usage of backend code from any other server without permission.
+origins = [
+    "https://your-vercel-app.vercel.app"
+]
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["http://localhost:5173"], # only this frontend URL can access my backend code.
+    allow_origins=origins, # only this frontend URL can access my backend code.
     allow_credentials=True,# allow login, cookies etc
     allow_methods=["*"], # allow every HTTP method
     allow_headers=["*"], #allow every header (extra information sent during request)
