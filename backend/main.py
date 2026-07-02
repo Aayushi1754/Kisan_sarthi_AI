@@ -22,7 +22,8 @@ app = FastAPI(
             #3) PORT-8000
 # middleware is security agent which prohibits the unauthorized usage of backend code from any other server without permission.
 origins = [
-    "https://your-vercel-app.vercel.app"
+    "https://kisan-sarthi-ai-silk.vercel.app",
+    "https://kisan-sarthi-g8hlxytq1-aayushi54.vercel.app"
 ]
 app.add_middleware(
     CORSMiddleware,
