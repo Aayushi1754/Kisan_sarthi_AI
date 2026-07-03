@@ -3,8 +3,8 @@ import Footer from '../components/Footer'
 export const About = () => {
   return (
     <div >
-    <h2 className='flex justify-center font-bold text-5xl  py-3 ml-100 mr-100 mt-3 bg-gray-400'> What is Kisan Sarthi AI?</h2>
-    <p className='text-2xl  py-4 flex justify-center bg-gray-300 mt-4 '> Kisan Sarthi AI is an intelligent web application designed to assist
+    <h2 className='flex font-bold text-5xl  py-3 ml-100 mr-100 mt-3 bg-gray-400'> What is Kisan Sarthi AI?</h2>
+    <p className='text-2xl  py-4 flex bg-gray-300 mt-4 '> Kisan Sarthi AI is an intelligent web application designed to assist
   farmers and field supervisors by providing quick and reliable answers
   to agriculture-related questions. The platform aims to simplify access
   to farming knowledge and support better decision-making in day-to-day
