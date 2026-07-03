@@ -47,8 +47,6 @@ const Dashboard = () => {
 
             </div>
 
-            <Footer />
-
         </div>
 
     );
