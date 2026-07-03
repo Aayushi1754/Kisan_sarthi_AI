@@ -1,25 +1,36 @@
-import React from 'react'
+import React from "react";
 
-export const Card = (props) => {
-  return (
-    <div className="border rounded-xl shadow-lg p-4 dark:bg-gray-800 dark:text-white">
+const Card = ({ img, title, description }) => {
 
-      <img
-        className="w-80 h-48 object-cover rounded-lg"
-        src={props.img}
-        alt={props.title}
-      />
+    return (
 
-      <h2 className="text-xl font-bold mt-3">
-        {props.title}
-      </h2>
+        <div className="bg-white dark:bg-gray-800 rounded-xl shadow-lg hover:shadow-2xl transition duration-300 overflow-hidden">
 
-      <p className="text-gray-600 mt-2">
-        {props.description}
-      </p>
+            <img
+                src={img}
+                alt={title}
+                className="w-full h-56 object-cover"
+            />
 
-    </div>
-  )
-}
+            <div className="p-5">
 
-export default Card
+                <h2 className="text-2xl font-bold dark:text-white">
+                    {title}
+                </h2>
+
+                <p className="text-gray-600 dark:text-gray-300 mt-3">
+                    {description}
+                </p>
+
+                <button className="mt-6 w-full bg-yellow-400 hover:bg-yellow-500 text-black font-semibold py-2 rounded-lg transition">
+                    Explore Now →
+                </button>
+
+            </div>
+
+        </div>
+
+    );
+};
+
+export default Card;

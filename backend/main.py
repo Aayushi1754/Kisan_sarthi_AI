@@ -46,15 +46,23 @@ async def global_exception_handler(request: Request, exc: Exception):
 features = {
     1: {
         "title": "Crop Disease Prediction",
-        "description": "Identify crop diseases using AI."
+        "description": "Identify crop diseases early using AI and get treatment recommendations.",
+        "image": "https://images.unsplash.com/photo-1592982537447-6c0e0ddfca1c?w=600"
     },
     2: {
         "title": "Soil Health Analysis",
-        "description": "Get soil nutrient recommendations."
+        "description": "Analyze soil nutrients and receive fertilizer recommendations.",
+        "image": "https://images.unsplash.com/photo-1625246333195-78d9c38ad449?w=600"
     },
     3: {
         "title": "Weather Insights",
-        "description": "View weather forecasts for farming."
+        "description": "View live weather forecasts to plan your farming activities.",
+        "image": "https://images.unsplash.com/photo-1601134467661-3f0b72c0f4db?w=600"
+    },
+    4: {
+        "title": "Market Price Updates",
+        "description": "Check the latest mandi prices and market trends for crops.",
+        "image": "https://images.unsplash.com/photo-1584270354949-1bdfb20b67ef?w=600"
     }
 }
 ##Basically pydantic helps us to convert JSON format to python format and vice versa.
