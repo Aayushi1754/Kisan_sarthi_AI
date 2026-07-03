@@ -11,11 +11,19 @@ const Dashboard = () => {
     useEffect(() => {
 
         fetch("https://kisan-sarthi-ai.onrender.com/api/features")
-            .then((res) => res.json())
-            .then((data) => {
-                setUsers(Object.values(data));
-                setLoading(false);
-            });
+    .then((res) => {
+        console.log("Response", res);
+        return res.json();
+    })
+    .then((data) => {
+        console.log("Data", data);
+        setUsers(Object.values(data));
+        setLoading(false);
+    })
+    .catch((err) => {
+        console.log("Error", err);
+        setLoading(false);
+    });
 
     }, []);
 
