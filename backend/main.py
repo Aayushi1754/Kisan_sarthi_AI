@@ -46,8 +46,8 @@ async def global_exception_handler(request: Request, exc: Exception):
 features = {
     1: {
         "title": "Crop Disease Prediction",
-        "description": "Identify crop diseases early using AI and get treatment recommendations.",
-        "image": "https://images.unsplash.com/photo-1592982537447-6c0e0ddfca1c?w=600"
+        "description": "Identify crop diseases and get treatment recommendations.",
+        "image": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQgOJt5v2PAKRETymbH1aUenVN3AiCVgJLe9UqhZHWLhQ&s=10"
     },
     2: {
         "title": "Soil Health Analysis",
@@ -57,12 +57,12 @@ features = {
     3: {
         "title": "Weather Insights",
         "description": "View live weather forecasts to plan your farming activities.",
-        "image": "https://images.unsplash.com/photo-1601134467661-3f0b72c0f4db?w=600"
+        "image": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQnt2ATSrouUsNtrGI6kVprYJvVk6Ag_r1onCxtvfyheBWjrt5R2MbaPcI&s=10"
     },
     4: {
-        "title": "Market Price Updates",
-        "description": "Check the latest mandi prices and market trends for crops.",
-        "image": "https://images.unsplash.com/photo-1584270354949-1bdfb20b67ef?w=600"
+        "title": "Pest Management",
+        "description": "Receive pest control suggestions and natural remedies.",
+        "image": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQKvmz1bZJ_fjJNthNpwzJ6FoSRP5UWrRZJcncPi1lidg&s=10"
     }
 }
 ##Basically pydantic helps us to convert JSON format to python format and vice versa.
