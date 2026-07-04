@@ -2,7 +2,9 @@ from fastapi import FastAPI, HTTPException, Request, status
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import JSONResponse
 from pydantic import BaseModel
-
+from database import engine
+from models import Base
+Base.metadata.create_all(bind=engine)
 app = FastAPI(
     title="Kisan Sarthi API",
     description="Backend APIs for Kisan Sarthi",
