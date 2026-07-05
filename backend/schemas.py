@@ -1,17 +1,31 @@
-from pydantic import BaseModel
+from pydantic import BaseModel,Field
 
-class FeatureBase(BaseModel):
+class FeatureCreate(BaseModel):
+    title: str = Field(
+        ...,
+        min_length=3,
+        max_length=100,
+        description="Title of the feature"
+    )
+
+    description: str = Field(
+        ...,
+        min_length=10,
+        max_length=500,
+        description="Feature description"
+    )
+
+    image: str | None = Field(
+        default=None,
+        description="Image URL"
+    )
+
+
+class FeatureResponse(BaseModel):
+    id: int
     title: str
     description: str
     image: str | None = None
-
-
-class FeatureCreate(FeatureBase):
-    pass
-
-
-class FeatureResponse(FeatureBase):
-    id: int
 
     class Config:
         from_attributes = True

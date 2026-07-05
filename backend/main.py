@@ -4,6 +4,12 @@ from fastapi.responses import JSONResponse
 from pydantic import BaseModel
 from database import engine
 from models import Base
+from sqlalchemy.orm import Session
+from fastapi import Depends
+from database import get_db
+import models
+from schemas import FeatureCreate
+from schemas import FeatureCreate, FeatureResponse
 Base.metadata.create_all(bind=engine)
 app = FastAPI(
     title="Kisan Sarthi API",
@@ -70,9 +76,7 @@ features = {
 }
 ##Basically pydantic helps us to convert JSON format to python format and vice versa.
 # Request Body Model
-class Feature(BaseModel):
-    title: str
-    description: str
+
 
 
 # Home Route
@@ -84,91 +88,119 @@ def home():
 
 
 # GET All Features
-@app.get("/api/features", status_code=status.HTTP_200_OK)
-def get_features():
+@app.get(
+    "/api/features",
+    response_model=list[FeatureResponse],
+    status_code=status.HTTP_200_OK
+)
+def get_features(db: Session = Depends(get_db)):
+    features = db.query(models.Feature).all()
     return features
 
 
 # GET Feature By ID
-@app.get("/api/features/{feature_id}", status_code=status.HTTP_200_OK)
-def get_feature(feature_id: int):
+@app.get("/api/features/{feature_id}", response_model=FeatureResponse, status_code=status.HTTP_200_OK)
+def get_feature(feature_id: int, db: Session = Depends(get_db)):
 
-    if feature_id not in features:
+    feature = db.query(models.Feature).filter(models.Feature.id == feature_id).first()
+
+    if feature is None:
         raise HTTPException(
             status_code=status.HTTP_404_NOT_FOUND,
             detail="Feature not found"
         )
 
-    return features[feature_id]
+    return feature
 
 
 # Search Feature
-@app.get("/api/features/search", status_code=status.HTTP_200_OK)
-def search_feature(title: str):
+@app.get(
+    "/api/features/search",
+    response_model=FeatureResponse,
+    status_code=status.HTTP_200_OK
+)
+def get_feature(feature_id: int, db: Session = Depends(get_db)):
 
-    for feature in features.values():
-        if feature["title"].lower() == title.lower():
-            return feature
+    feature = db.query(models.Feature).filter(
+        models.Feature.id == feature_id
+    ).first()
 
-    raise HTTPException(
-        status_code=status.HTTP_404_NOT_FOUND,
-        detail="Feature not found"
-    )
-
-
-# POST - Add Feature
-@app.post("/api/features", status_code=status.HTTP_201_CREATED)
-def add_feature(feature: Feature):
-
-    new_id = max(features.keys()) + 1
-
-    features[new_id] = {
-        "title": feature.title,
-        "description": feature.description
-    }
-
-    return {
-        "message": "Feature Added Successfully",
-        "feature": features[new_id]
-    }
-
-
-# PUT - Update Feature
-@app.put("/api/features/{feature_id}", status_code=status.HTTP_200_OK)
-def update_feature(feature_id: int, feature: Feature):
-
-    if feature_id not in features:
+    if feature is None:
         raise HTTPException(
             status_code=status.HTTP_404_NOT_FOUND,
             detail="Feature not found"
         )
 
-    features[feature_id] = {
-        "title": feature.title,
-        "description": feature.description
-    }
+    return feature
 
-    return {
-        "message": "Feature Updated Successfully",
-        "feature": features[feature_id]
-    }
+
+# POST - Add Feature
+@app.post("/api/features", response_model=FeatureResponse, status_code=status.HTTP_201_CREATED)
+def add_feature(feature: FeatureCreate, db: Session = Depends(get_db)):
+
+    new_feature = models.Feature(
+        title=feature.title,
+        description=feature.description,
+        image=feature.image
+    )
+
+    db.add(new_feature)
+    db.commit()
+    db.refresh(new_feature)
+
+    return new_feature
+
+
+# PUT - Update Feature
+@app.put("/api/features/{feature_id}", response_model=FeatureResponse, status_code=status.HTTP_200_OK)
+def update_feature(
+    feature_id: int,
+    feature: FeatureCreate,
+    db: Session = Depends(get_db)
+):
+
+    db_feature = db.query(models.Feature).filter(
+        models.Feature.id == feature_id
+    ).first()
+
+    if db_feature is None:
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail="Feature not found"
+        )
+
+    db_feature.title = feature.title
+    db_feature.description = feature.description
+    db_feature.image = feature.image
+
+    db.commit()
+    db.refresh(db_feature)
+
+    return  db_feature
 
 
 # DELETE - Delete Feature
 @app.delete("/api/features/{feature_id}", status_code=status.HTTP_200_OK)
-def delete_feature(feature_id: int):
+def delete_feature(
+    feature_id: int,
+    db: Session = Depends(get_db)
+):
 
-    if feature_id not in features:
+    db_feature = db.query(models.Feature).filter(
+        models.Feature.id == feature_id
+    ).first()
+
+    if db_feature is None:
         raise HTTPException(
             status_code=status.HTTP_404_NOT_FOUND,
             detail="Feature not found"
         )
 
-    deleted_feature = features.pop(feature_id)
+    db.delete(db_feature)
+    db.commit()
 
     return {
-        "message": "Feature Deleted Successfully",
-        "feature": deleted_feature
+        "message": "Feature Deleted Successfully"
     }
 
 
