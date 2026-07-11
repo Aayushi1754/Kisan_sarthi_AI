@@ -8,6 +8,8 @@ from sqlalchemy.orm import Session
 from fastapi import Depends
 from database import get_db
 import models
+from auth import hash_password
+from schemas import UserRegister, UserResponse
 from schemas import FeatureCreate
 from schemas import FeatureCreate, FeatureResponse
 Base.metadata.create_all(bind=engine)
@@ -44,12 +46,12 @@ app.add_middleware(
 # HTTPS CODE: 2-SUCESSFUL, 4-ERROR, 5-SERVER ERROR
 
 # Global Exception Handler for unexpected error
-@app.exception_handler(Exception)
-async def global_exception_handler(request: Request, exc: Exception):
-    return JSONResponse(
-        status_code=500,
-        content={"message": "Internal Server Error"}
-    )
+# @app.exception_handler(Exception)
+# async def global_exception_handler(request: Request, exc: Exception):
+#     return JSONResponse(
+#         status_code=500,
+#         content={"message": "Internal Server Error"}
+#     )
 
 # Dummy Database
 features = {
@@ -210,3 +212,27 @@ def health():
     return {
         "status": "API is running"
     }
+
+
+# Register User
+@app.post("/api/auth/register", response_model=UserResponse, status_code=status.HTTP_201_CREATED)
+def register(user: UserRegister, db: Session = Depends(get_db)):
+
+    existing_user = db.query(models.User).filter(models.User.email == user.email).first()
+
+    if existing_user:
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST,
+            detail="Email already registered"
+        )
+
+    new_user = models.User(
+        email=user.email,
+        hashed_password=hash_password(user.password)
+    )
+
+    db.add(new_user)
+    db.commit()
+    db.refresh(new_user)
+
+    return new_user
