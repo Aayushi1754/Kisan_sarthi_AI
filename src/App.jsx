@@ -7,6 +7,7 @@ import About from './pages/About'
 import Dashboard from './pages/Dashboard'
 import Footer from './components/Footer'
 import Democomponents from "./pages/Democomponents"
+import ProtectedRoute from './components/ProtectedRoute'
 
  const App = () => {
   const[dark,setDark]=useState(false);
@@ -39,9 +40,20 @@ dark:text-white'>
         <Route path='/' element= {<Home/>} />
             <Route path="/components" element={<Democomponents/>}
 />
-        <Route path='/DashBoard' element={<Dashboard/>} />
-        <Route path='/Login' element={<Login/>} />
-        <Route path='/About' element={<About/>}/>
+        <Route
+        path="/Dashboard"
+        element={
+          <ProtectedRoute>
+            <Dashboard />
+          </ProtectedRoute>
+        }
+      />
+        <Route path='/login' element= {<Login/>} />
+        <Route
+        path="/About"
+        element={<About />}
+        
+      />
 
       </Routes>
       </main>

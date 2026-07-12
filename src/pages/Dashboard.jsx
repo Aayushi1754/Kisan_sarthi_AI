@@ -10,10 +10,10 @@ const Dashboard = () => {
 
     useEffect(() => {
 
-        fetch("https://kisan-sarthi-ai.onrender.com/api/features")
+        fetch("http://127.0.0.1:8000/api/features")
             .then((res) => res.json())
             .then((data) => {
-                setUsers(Object.values(data));
+                setUsers(data);
                 setLoading(false);
             })
             .catch((err) => {

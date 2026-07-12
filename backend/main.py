@@ -1,3 +1,8 @@
+from starlette.middleware.sessions import SessionMiddleware
+from fastapi.responses import RedirectResponse
+from starlette.requests import Request
+from auth import oauth,create_access_token
+
 from fastapi import FastAPI, HTTPException, Request, status
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import JSONResponse
@@ -15,13 +20,22 @@ from auth import (
 from schemas import UserRegister, UserResponse,UserLogin, Token
 from schemas import FeatureCreate
 from schemas import FeatureCreate, FeatureResponse
+from slowapi import Limiter
+from slowapi.util import get_remote_address
+from slowapi.errors import RateLimitExceeded
+from slowapi.middleware import SlowAPIMiddleware 
 Base.metadata.create_all(bind=engine)
 app = FastAPI(
     title="Kisan Sarthi API",
     description="Backend APIs for Kisan Sarthi",
     version="1.0.0"
 )
+app.add_middleware(SessionMiddleware, secret_key="SECRET_KEY")
 
+limiter =Limiter(key_func=get_remote_address)
+app.state.limiter=limiter
+
+app.add_middleware(SlowAPIMiddleware)
 # CORS Configuration
 
 # A URL is OF 2 types and is made up of made up of: 
@@ -218,8 +232,13 @@ def health():
 
 
 # Register User
+@limiter.limit("5/15minutes")
 @app.post("/api/auth/register", response_model=UserResponse, status_code=status.HTTP_201_CREATED)
-def register(user: UserRegister, db: Session = Depends(get_db)):
+def register(
+    request: Request,
+    user: UserRegister,
+    db: Session = Depends(get_db)
+):
 
     existing_user = db.query(models.User).filter(models.User.email == user.email).first()
 
@@ -239,8 +258,13 @@ def register(user: UserRegister, db: Session = Depends(get_db)):
     db.refresh(new_user)
 
     return new_user
+@limiter.limit("5/15minutes")
 @app.post("/api/auth/login", response_model=Token)
-def login(user: UserLogin, db: Session = Depends(get_db)):
+def login(
+    request: Request,
+    user: UserLogin,
+    db: Session = Depends(get_db)
+):
 
     db_user = db.query(models.User).filter(
         models.User.email == user.email
@@ -272,3 +296,14 @@ def profile(user=Depends(verify_token)):
         "message": "Welcome!",
         "user": user
     }
+@app.get("/auth/google")
+async def google_login(request: Request):
+    redirect_uri = request.url_for("google_callback")
+    return await oauth.google.authorize_redirect(request, redirect_uri)
+@app.get("/auth/google/callback",
+name="google_callback")
+async def google_callback(request:Request):
+    token=await oauth.google.authorize_access_token(request)
+    user=token["userinfo"]
+    access_token = create_access_token(data={"sub": user["email"]})
+    return {"access_token": access_token, "user": user}
