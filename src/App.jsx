@@ -8,6 +8,7 @@ import Dashboard from './pages/Dashboard'
 import Footer from './components/Footer'
 import Democomponents from "./pages/Democomponents"
 import ProtectedRoute from './components/ProtectedRoute'
+import AIChat from './pages/AIChat'
 
  const App = () => {
   const[dark,setDark]=useState(false);
@@ -52,6 +53,11 @@ dark:text-white'>
         <Route
         path="/About"
         element={<About />}
+        
+      />
+        <Route
+        path="/AIChat"
+        element={<AIChat />}
         
       />
 

@@ -2,6 +2,7 @@ from starlette.middleware.sessions import SessionMiddleware
 from fastapi.responses import RedirectResponse
 from starlette.requests import Request
 from auth import oauth,create_access_token
+from ai import get_ai_response
 
 from fastapi import FastAPI, HTTPException, Request, status
 from fastapi.middleware.cors import CORSMiddleware
@@ -24,6 +25,8 @@ from slowapi import Limiter
 from slowapi.util import get_remote_address
 from slowapi.errors import RateLimitExceeded
 from slowapi.middleware import SlowAPIMiddleware 
+class AIRequest(BaseModel):
+    prompt: str
 Base.metadata.create_all(bind=engine)
 app = FastAPI(
     title="Kisan Sarthi API",
@@ -307,3 +310,15 @@ async def google_callback(request:Request):
     user=token["userinfo"]
     access_token = create_access_token(data={"sub": user["email"]})
     return {"access_token": access_token, "user": user}
+@app.post("/api/ai/chat")
+def ai_chat(data: AIRequest):
+    try:
+        prompt=f""" You are Kisan Sarthi AI. Answer only  agricultural-realted questions. Focus on farming in Uttarakhand, India. If the question is unrelated to agriculture, politely refuse.
+        Question: {data.prompt}"""
+        response = get_ai_response(prompt)
+        return {"response": response}
+    except Exception as e:
+        raise HTTPException(
+            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+            detail=str(e)
+        )

@@ -24,6 +24,7 @@ export const Navbar = () => {
                 )
               }
               <Link to='/Dashboard'> Dashboard</Link>
+              <Link to="/AIChat"> AI Chat</Link>
             </div>
         </nav>
     </div>
