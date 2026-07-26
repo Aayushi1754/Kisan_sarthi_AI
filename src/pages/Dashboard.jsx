@@ -12,6 +12,8 @@ const Dashboard = () => {
     const [users, setUsers] = useState([]);
     const [loading, setLoading] = useState(true);
     const [profile, setProfile] = useState({});
+    const[editingId,setEditingId] = useState(null);
+    const[isEditing,setIsEditing] = useState(false);
 
     useEffect(() => {
 
@@ -112,6 +114,66 @@ const Dashboard = () => {
         }
 
     };
+    const editFeature = (id) => {
+
+        const feature = users.find((user) => user.id === id);
+        setTitle(feature.title);
+        setDescription(feature.description);
+        setImage(feature.image);
+        setEditingId(id);
+        setIsEditing(true);
+        setShowForm(true);
+
+    };
+    const updateFeature = async () => {
+
+    if (!title || !description || !image) {
+        alert("Please fill all fields");
+        return;
+    }
+
+    try {
+
+        const response = await fetch(
+            `http://127.0.0.1:8000/api/features/${editingId}`,
+            {
+                method: "PUT",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({
+                    title,
+                    description,
+                    image
+                })
+            }
+        );
+
+        const updatedFeature = await response.json();
+
+        setUsers(
+            users.map((user) =>
+                user.id === editingId ? updatedFeature : user
+            )
+        );
+
+        setTitle("");
+        setDescription("");
+        setImage("");
+        setShowForm(false);
+        setEditingId(null);
+        setIsEditing(false);
+
+        alert("Feature updated successfully!");
+
+    } catch (error) {
+
+        console.log(error);
+        alert("Update failed");
+
+    }
+
+};
 
     if (loading) return <Loader />;
 
@@ -144,7 +206,7 @@ const Dashboard = () => {
                     <div className="bg-white shadow-md rounded-lg p-6 mx-10 mt-4">
 
                         <h2 className="text-2xl font-bold mb-4">
-                            Add New Feature
+                            {isEditing ? "Update Feature" : "Add New Feature"}
                         </h2>
 
                         <input
@@ -171,10 +233,10 @@ const Dashboard = () => {
                         />
 
                         <button
-                            onClick={addFeature}
+                            onClick={isEditing ? updateFeature : addFeature}
                             className="bg-blue-600 text-white px-4 py-2 rounded"
                         >
-                            Add Feature
+                            {isEditing ? "Update Feature" : "Add Feature"}
                         </button>
 
                     </div>
@@ -203,7 +265,7 @@ const Dashboard = () => {
                         img={user.image}
                         title={user.title}
                         description={user.description}
-                        onEdit={() => {}}
+                        onEdit={editFeature}
                         onDelete={deleteFeature}
                     />
 
