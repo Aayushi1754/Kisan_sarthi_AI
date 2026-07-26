@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from "react";
 import Card from "../components/Card";
 import Loader from "../components/ui/Loader";
+import Toast from "../components/ui/Toast";
+
 
 const Dashboard = () => {
 
@@ -14,6 +16,7 @@ const Dashboard = () => {
     const [profile, setProfile] = useState({});
     const[editingId,setEditingId] = useState(null);
     const[isEditing,setIsEditing] = useState(false);
+    const[toastMessage,setToastMessage] = useState("");const[showtoast,setShowToast] = useState(false);
 
     useEffect(() => {
 
@@ -40,12 +43,20 @@ const Dashboard = () => {
             });
 
     }, []);
+    const showToastMessage = (message) => {
+        setToastMessage(message);
+        setShowToast(true);
+        setTimeout(() => {
+            setShowToast(false);
+        }, 3000);
+
+    }
 
     // ADD FEATURE
     const addFeature = async () => {
 
         if (!title || !description || !image) {
-            alert("Please fill all fields");
+            showToastMessage("Please fill all fields");
             return;
         }
 
@@ -75,11 +86,11 @@ const Dashboard = () => {
             setImage("");
             setShowForm(false);
 
-            alert("Feature added successfully!");
+            showToastMessage("Feature added successfully!");
 
         } catch (error) {
             console.log(error);
-            alert("Something went wrong");
+            showToastMessage("Something went wrong");
         }
 
     };
@@ -104,12 +115,12 @@ const Dashboard = () => {
 
             setUsers(users.filter((user) => user.id !== id));
 
-            alert("Feature deleted successfully!");
+            showToastMessage("Feature deleted successfully!");
 
         } catch (error) {
 
             console.log(error);
-            alert("Delete failed");
+            showToastMessage("Delete failed");
 
         }
 
@@ -128,7 +139,7 @@ const Dashboard = () => {
     const updateFeature = async () => {
 
     if (!title || !description || !image) {
-        alert("Please fill all fields");
+        showToastMessage("Please fill all fields");
         return;
     }
 
@@ -164,12 +175,12 @@ const Dashboard = () => {
         setEditingId(null);
         setIsEditing(false);
 
-        alert("Feature updated successfully!");
+        showToastMessage("Feature updated successfully!");
 
     } catch (error) {
 
         console.log(error);
-        alert("Update failed");
+        showToastMessage("Update failed");
 
     }
 
@@ -180,6 +191,9 @@ const Dashboard = () => {
     return (
 
         <div className="min-h-screen bg-gray-50 dark:bg-gray-900">
+            <Toast 
+            message={toastMessage} 
+            type="success" show={showtoast} />
 
             <div className="bg-yellow-400 py-8">
 
@@ -255,23 +269,41 @@ const Dashboard = () => {
 
             </div>
 
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 px-8 pb-10">
+            {users.length === 0 ? (
 
-                {users.map((user) => (
+    <div className="text-center py-16">
 
-                    <Card
-                        key={user.id}
-                        id={user.id}
-                        img={user.image}
-                        title={user.title}
-                        description={user.description}
-                        onEdit={editFeature}
-                        onDelete={deleteFeature}
-                    />
+        <h2 className="text-3xl font-bold">
+            No farming tools available 🌱
+        </h2>
 
-                ))}
+        <p className="mt-3 text-gray-600">
+            Click "Add Feature" to create your first farming tool.
+        </p>
 
-            </div>
+    </div>
+
+) : (
+
+    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 px-8 pb-10">
+
+        {users.map((user) => (
+
+            <Card
+                key={user.id}
+                id={user.id}
+                img={user.image}
+                title={user.title}
+                description={user.description}
+                onEdit={editFeature}
+                onDelete={deleteFeature}
+            />
+
+        ))}
+
+    </div>
+
+)}
 
         </div>
 
