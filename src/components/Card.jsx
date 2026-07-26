@@ -1,6 +1,13 @@
 import React from "react";
 
-const Card = ({ img, title, description }) => {
+const Card = ({
+    id,
+    img,
+    title,
+    description,
+    onEdit,
+    onDelete
+}) => {
 
     return (
 
@@ -22,9 +29,23 @@ const Card = ({ img, title, description }) => {
                     {description}
                 </p>
 
-                <button className="mt-6 w-full bg-yellow-400 hover:bg-yellow-500 text-black font-semibold py-2 rounded-lg transition">
-                    Explore Now →
-                </button>
+                <div className="flex gap-3 mt-6">
+
+                    <button
+                        onClick={() => onEdit(id)}
+                        className="flex-1 bg-blue-500 hover:bg-blue-600 text-white py-2 rounded-lg"
+                    >
+                        Edit
+                    </button>
+
+                    <button
+                        onClick={() => onDelete(id)}
+                        className="flex-1 bg-red-500 hover:bg-red-600 text-white py-2 rounded-lg"
+                    >
+                        Delete
+                    </button>
+
+                </div>
 
             </div>
 
