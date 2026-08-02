@@ -1,3 +1,5 @@
+import os
+
 from starlette.middleware.sessions import SessionMiddleware
 from fastapi.responses import RedirectResponse
 from starlette.requests import Request
@@ -17,7 +19,7 @@ import models
 from auth import (
     hash_password,verify_password, create_access_token,
     verify_token,
-)   
+)
 from schemas import UserRegister, UserResponse,UserLogin, Token
 from schemas import FeatureCreate
 from schemas import FeatureCreate, FeatureResponse
@@ -33,7 +35,7 @@ app = FastAPI(
     description="Backend APIs for Kisan Sarthi",
     version="1.0.0"
 )
-app.add_middleware(SessionMiddleware, secret_key="SECRET_KEY")
+app.add_middleware(SessionMiddleware, secret_key=os.getenv("SECRET_KEY"))
 
 limiter =Limiter(key_func=get_remote_address)
 app.state.limiter=limiter
@@ -309,7 +311,7 @@ async def google_callback(request:Request):
     token=await oauth.google.authorize_access_token(request)
     user=token["userinfo"]
     access_token = create_access_token(data={"sub": user["email"]})
-    return {"access_token": access_token, "user": user}
+    return RedirectResponse(url=f"{https://kisan-sarthi-ai-silk.vercel.app/}/auth-success?token={access_token}")
 @app.post("/api/ai/chat")
 def ai_chat(data: AIRequest):
     try:
