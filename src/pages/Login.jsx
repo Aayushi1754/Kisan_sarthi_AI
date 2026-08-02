@@ -85,7 +85,7 @@ dark:text-white ' >
         variant="secondary"
         size="md"
         onClick={()=>{
-          window.location.href="http://127.0.0.1:8000/auth/google";
+          window.location.href="https://kisan-sarthi-ai.onrender.com/auth/google"
 
         }} >
         Sign in with Google
