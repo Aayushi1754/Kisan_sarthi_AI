@@ -16,7 +16,7 @@ function AIChat() {
     setResponse("");
 
     try {
-      const res = await fetch("http://127.0.0.1:8000/api/ai/chat", {
+      const res = await fetch("https://kisan-sarthi-ai.onrender.com/api/ai/chat", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
