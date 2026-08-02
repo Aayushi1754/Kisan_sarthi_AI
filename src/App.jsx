@@ -9,6 +9,7 @@ import Footer from './components/Footer'
 import Democomponents from "./pages/Democomponents"
 import ProtectedRoute from './components/ProtectedRoute'
 import AIChat from './pages/AIChat'
+import AuthSuccess from './pages/AuthSuccess'
 
  const App = () => {
   const[dark,setDark]=useState(false);
@@ -58,6 +59,11 @@ dark:text-white'>
         <Route
         path="/AIChat"
         element={<AIChat />}
+        
+      />
+        <Route
+        path="/auth-success"
+        element={<AuthSuccess />}
         
       />
 
