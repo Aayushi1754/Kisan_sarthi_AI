@@ -1,3 +1,4 @@
+import http
 import os
 
 from starlette.middleware.sessions import SessionMiddleware
@@ -311,7 +312,7 @@ async def google_callback(request:Request):
     token=await oauth.google.authorize_access_token(request)
     user=token["userinfo"]
     access_token = create_access_token(data={"sub": user["email"]})
-    return RedirectResponse(url=f"{https://kisan-sarthi-ai-silk.vercel.app/}/auth-success?token={access_token}")
+    return RedirectResponse(url=f"https://kisan-sarthi-ai-silk.vercel.app/auth-success?token={access_token}")
 @app.post("/api/ai/chat")
 def ai_chat(data: AIRequest):
     try:
