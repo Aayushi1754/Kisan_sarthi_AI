@@ -22,7 +22,7 @@ const Dashboard = () => {
 
         const token = localStorage.getItem("token");
 
-        fetch("http://127.0.0.1:8000/api/profile", {
+        fetch("https://kisan-sarthi-ai.onrender.com/api/profile", {
             headers: {
                 Authorization: `Bearer ${token}`
             }
@@ -31,7 +31,7 @@ const Dashboard = () => {
             .then((data) => setProfile(data))
             .catch((err) => console.log(err));
 
-        fetch("http://127.0.0.1:8000/api/features")
+        fetch("https://kisan-sarthi-ai.onrender.com/api/features")
             .then((res) => res.json())
             .then((data) => {
                 setUsers(data);
@@ -63,7 +63,7 @@ const Dashboard = () => {
         try {
 
             const response = await fetch(
-                "http://127.0.0.1:8000/api/features",
+                "https://kisan-sarthi-ai.onrender.com/api/features",
                 {
                     method: "POST",
                     headers: {
@@ -107,7 +107,7 @@ const Dashboard = () => {
         try {
 
             await fetch(
-                `http://127.0.0.1:8000/api/features/${id}`,
+                `https://kisan-sarthi-ai.onrender.com/api/features/${id}`,
                 {
                     method: "DELETE"
                 }
@@ -146,7 +146,7 @@ const Dashboard = () => {
     try {
 
         const response = await fetch(
-            `http://127.0.0.1:8000/api/features/${editingId}`,
+            `https://kisan-sarthi-ai.onrender.com/api/features/${editingId}`,
             {
                 method: "PUT",
                 headers: {
