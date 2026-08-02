@@ -4,19 +4,14 @@ This template provides a minimal setup to get React working in Vite with HMR and
 
 Currently, two official plugins are available:
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react)
+- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc)
 
-## React Compiler
+---
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+# Week 4 - FastAPI Backend
 
-## Expanding the ESLint configuration
-
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
-## Week 4 - FastAPI Backend
-
-### Backend Setup
+## Backend Setup
 
 ```bash
 cd backend
@@ -42,7 +37,9 @@ Swagger Documentation:
 http://127.0.0.1:8000/docs
 ```
 
-### Frontend Setup
+---
+
+## Frontend Setup
 
 ```bash
 npm install
@@ -55,6 +52,9 @@ Frontend runs at:
 ```
 http://localhost:5173
 ```
+
+---
+
 # Week 5 - Database Integration
 
 ## Database
@@ -87,7 +87,6 @@ The backend currently contains the following table:
 
 ![Schema Diagram](W5_SchemaDiagram_[TBI-26100312].png)
 
-
 ---
 
 ## Environment Variables
@@ -98,6 +97,10 @@ Example:
 
 ```env
 DATABASE_URL=your_postgresql_database_url
+JWT_SECRET=your_jwt_secret
+GOOGLE_CLIENT_ID=your_google_client_id
+GOOGLE_CLIENT_SECRET=your_google_client_secret
+GEMINI_API_KEY=your_gemini_api_key
 ```
 
 A sample configuration is available in `.env.example`.
@@ -128,3 +131,80 @@ uvicorn main:app --reload
 | POST | /api/features | Create feature |
 | PUT | /api/features/{id} | Update feature |
 | DELETE | /api/features/{id} | Delete feature |
+| POST | /api/auth/register | Register User |
+| POST | /api/auth/login | Login User |
+| GET | /api/profile | User Profile |
+| GET | /auth/google | Google OAuth Login |
+| POST | /api/ai/chat | AI Chat |
+
+---
+
+# Week 9 - Deployment
+
+## Live Frontend
+
+https://kisan-sarthi-ai-silk.vercel.app
+
+## Live Backend
+
+https://kisan-sarthi-ai.onrender.com
+
+---
+
+## Tech Stack
+
+### Frontend
+
+- React
+- Vite
+- Tailwind CSS
+- React Router
+
+### Backend
+
+- FastAPI
+- SQLAlchemy
+- PostgreSQL (Supabase)
+- JWT Authentication
+- Google OAuth 2.0
+- Gemini AI API
+
+### Deployment
+
+- Vercel (Frontend)
+- Render (Backend)
+
+---
+
+## Features
+
+- User Registration & Login
+- JWT Authentication
+- Google OAuth Login
+- AI-powered Agricultural Chatbot
+- CRUD Operations on Farming Features
+- PostgreSQL Database Integration
+- Responsive UI
+- Dark Mode Support
+- Toast Notifications
+- Error Boundary
+- Protected Routes
+
+---
+
+## Known Limitations (Free Tier)
+
+- Render free tier automatically spins down after approximately 15 minutes of inactivity.
+- The first request after inactivity may take 30–60 seconds while the backend wakes up.
+- AI responses may be slightly slower during backend startup.
+- Free-tier services may experience occasional cold starts.
+
+---
+
+## Live Application
+
+Frontend:
+https://kisan-sarthi-ai-silk.vercel.app
+
+Backend:
+https://kisan-sarthi-ai.onrender.com
