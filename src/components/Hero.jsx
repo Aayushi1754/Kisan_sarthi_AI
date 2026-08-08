@@ -1,6 +1,8 @@
 import React from 'react'
+import { useNavigate } from 'react-router-dom'
 
 export const Hero = () => {
+  const navigate = useNavigate()
   return (
     <div className="relative w-full">
 
@@ -19,7 +21,8 @@ export const Hero = () => {
           From Soil to Harvest, Powered by Intelligence
         </p>
 
-        <button className="bg-orange-300 text-xl md:text-3xl py-2 px-5 rounded-3xl mt-6">
+        <button 
+        onClick={() => navigate("/login")}className="bg-orange-300 text-xl md:text-3xl py-2 px-5 rounded-3xl mt-6">
           Get Started
         </button>
 
