@@ -5,7 +5,8 @@ The project combines a React frontend, FastAPI backend, PostgreSQL database, JWT
 
 🚀 Live Application
 Frontend:
-https://kisan-sarthi-ai-silk.vercel.app⁠
+https://kisan-sarthi-ai-silk.vercel.app
+⁠
 Backend:
 https://kisan-sarthi-ai.onrender.com⁠
 API Documentation:
