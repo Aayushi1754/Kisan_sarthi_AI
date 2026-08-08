@@ -13,6 +13,7 @@ https://kisan-sarthi-ai.onrender.com/docs⁠
 
 🎯 Problem Statement
 Farmers often need quick access to information related to crops, farming practices, soil, pests, and other agricultural concerns. Finding relevant and understandable information can sometimes be difficult.
+
 Kisan Sarthi AI provides a centralized platform where users can:
 Access agricultural information
 Explore farming-related tools
@@ -55,7 +56,7 @@ Loading states
 Protected routes
 
 System Architecture:
-┌─────────────────────┐
+                    ┌─────────────────────┐
                     │       User          │
                     └──────────┬──────────┘
                                │
@@ -93,29 +94,36 @@ System Architecture:
 Technology
 1) React for Frontend
 (Component-based UI development)
-2) Vite for Frontend tooling
+
+3) Vite for Frontend tooling
 (Fast development and build process)
-3) Tailwind CSS for Styling
+
+5) Tailwind CSS for Styling
 (Responsive and rapid UI development)
-4) React Router for Routing
+
+7) React Router for Routing
 (Client-side navigation)
-5) FastAPI for Backend
+
+9) FastAPI for Backend
 (High-performance Python API framework)
-6) SQLAlchemy for ORM
+
+11) SQLAlchemy for ORM
 (Database interaction through Python)
-7) PostgreSQL for Database
+
+12) PostgreSQL for Database
 (Structured relational data storage)
-8) Supabase for Database hosting
+
+13) Supabase for Database hosting
 (Managed PostgreSQL infrastructure)
-9) JWT for Authentication
+14) JWT for Authentication
 (Token-based authentication)
-10) Google OAuth 2.0 for Authentication
+15) Google OAuth 2.0 for Authentication
 (Google-based login)
-11) Gemini API for AI
+16) Gemini API for AI
 (Agricultural question answering)
-12) Vercel for Frontend hosting
+17) Vercel for Frontend hosting
 (Deployment of React application)
-13) Render for Backend hosting
+18) Render for Backend hosting
 (Deployment of FastAPI application)
 
 🖥️ Frontend
@@ -224,7 +232,7 @@ The JWT token is generated after successful login and used when accessing protec
 2. Google OAuth 2.0
 Users can also authenticate using their Google account.
 
-OAuth Flow
+OAuth Flow:
 User
  ↓
 Click "Continue with Google"
